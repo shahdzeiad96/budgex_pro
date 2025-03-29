@@ -231,6 +231,7 @@ def transactions(request):
     amounts = [entry['total_amount'] for entry in transaction_data]
     
     context = {
+        'username':user.first_name.upper,
         'budgets': budgets,
         'categories': categories,
         'transactions': transactions,
@@ -283,6 +284,14 @@ def reports(request):
     }
 
     return render(request, "reports.html", context)
+def deletetransaction(request,id):
+    transactions=Transaction.objects.get(id=id)
+    transactions.delete()
+    return redirect('transactions')
+def deletebudget(request,id):
+    budget=Budget.objects.get(id=id)
+    budget.delete()
+    return redirect('budget')
 
 def download_pdf(request):
     # Create a BytesIO buffer to store PDF data
